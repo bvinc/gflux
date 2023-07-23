@@ -86,11 +86,11 @@ When `rebuild` is called, it's up to the component to make sure the widgets matc
 ### Initializing a component tree
 
 ```rust
-    // Create the global application state
-    let global = Rc::new(RefCell::new(AppState { tasks }));
+// Create the global application state
+let global = Rc::new(RefCell::new(AppState { tasks }));
 
-    // Create the root of the component tree
-    let mut ctree = ComponentTree::new(global);
+// Create the root of the component tree
+let mut ctree = ComponentTree::new(global);
 ```
 
 ### Creating a component
@@ -98,7 +98,7 @@ When `rebuild` is called, it's up to the component to make sure the widgets matc
 Given a "lens" function, and parameters, you can create new component.  A similar method exists on a ComponentCtx to create a child component of an existing component.
 
 ```rust
-    let task_comp: ComponentHandle<TaskComponent> = ctree.new_component(|app_state| app_state.get_task_mut(), ());
+let task_comp: ComponentHandle<TaskComponent> = ctree.new_component(|app_state| app_state.get_task_mut(), ());
 ```
 
 ### Change tracking
@@ -111,12 +111,12 @@ A component tree provides two methods:
 With both of these methods, we can register the GTK main loop to always rebuild any component whose model has been mutated:
 
 ```rust
-    // When the tree first moves from clean to dirty, use `idle_add_local_once`
-    // to make sure that `ctree.rebuild_changed()` later gets called from the gtk
-    // main loop
-    ctree.on_first_change(clone!(@strong ctree => move || {
-        glib::source::idle_add_local_once(clone!(@strong ctree => move || ctree.rebuild_changed()));
-    }));
+// When the tree first moves from clean to dirty, use `idle_add_local_once`
+// to make sure that `ctree.rebuild_changed()` later gets called from the gtk
+// main loop
+ctree.on_first_change(clone!(@strong ctree => move || {
+    glib::source::idle_add_local_once(clone!(@strong ctree => move || ctree.rebuild_changed()));
+}));
 ```
 
 ### Guidelines to having a good time
