@@ -3,7 +3,7 @@
 
 gflux is a tiny experimental reactive component system for rust, designed to make GTK more manageable.
 
-gflus:
+gflux:
 * is about 300 lines of code
 * contains no macros
 * is independent of any particular GUI library
