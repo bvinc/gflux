@@ -1,7 +1,8 @@
 [package]
-categories = ["command-line-utilities", "development-tools::cargo-plugins"]
+authors = ["Brian Vincent"]
+categories = ["gui"]
 description = "gflux is a tiny experimental reactive component system for rust, designed to make GTK more manageable."
-documentation = "https://doc.rs/gflux"
+documentation = "https://docs.rs/gflux"
 edition = "2021"
 homepage = "https://github.com/bvinc/gflux"
 keywords = ["component", "reactive", "ui", "gui", "gtk"]
