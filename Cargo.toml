@@ -1,0 +1,8 @@
+[package]
+edition = "2021"
+name = "gflux"
+version = "0.1.0"
+
+[dev-dependencies]
+glib = {version = "0.17"}
+gtk = {package = "gtk4", version = "0.6"}
