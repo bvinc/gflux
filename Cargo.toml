@@ -1,6 +1,15 @@
 [package]
+categories = ["command-line-utilities", "development-tools::cargo-plugins"]
+description = "gflux is a tiny experimental reactive component system for rust, designed to make GTK more manageable."
+documentation = "https://doc.rs/gflux"
 edition = "2021"
+homepage = "https://github.com/bvinc/gflux"
+keywords = ["component", "reactive", "ui", "gui", "gtk"]
+license = "MIT"
+license-file = "LICENSE"
 name = "gflux"
+readme = "README.md"
+respository = "https://github.com/bvinc/gflux"
 version = "0.1.0"
 
 [dev-dependencies]
