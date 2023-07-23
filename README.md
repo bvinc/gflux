@@ -3,6 +3,13 @@
 
 gflux is a tiny experimental reactive component system for rust, designed to make GTK more manageable.
 
+gflus:
+* is about 300 lines of code
+* contains no macros
+* is independent of any particular GUI library
+* tracks which components have had their model's mutated
+* is orthogonal to any model diffing code needed to optimize updates
+
 ##  Why GTK is hard in rust
 
 Let's look at a GTK Button.  You register a callback to handle a button click with this method
@@ -11,7 +18,7 @@ Let's look at a GTK Button.  You register a callback to handle a button click wi
 fn connect_clicked<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId
 ```
 
-Do you see that `'static` lifetime bound?  This means that the callback function provided can only capture static references.  This makes sense, because a GTK Button is a reference counted object that might live beyond the current stack frame.  But I believe this is the single greatest source of difficulty of GTK in rust.
+The `'static` lifetime bound means that the callback function provided can only capture static references.  This makes sense, because a GTK Button is a reference counted object that might live beyond the current stack frame.  But I believe this is the single greatest source of difficulty of GTK in rust.
 
 There are usually 3 ways to handle this:
 * Wrap your application state in `Rc<RefCell<T>>`.   This works when your application state is simple.  For complex applications, you don't want every widget to be aware of your entire application state.  This means you end up putting `Rc<RefCell<T>>` all over your application state.  This gets unmanageable.
@@ -20,7 +27,7 @@ There are usually 3 ways to handle this:
 
 ## gflux components
 
-gflux works by building a component tree.  Each component specifies a "lens" function.  A chain of lens functions from each component, works together to always be able to go from the global application state down to the state that an individual component cares about.
+gflux works by building a component tree.  Each component, on creation, is given a "lens" function.  A chain of lens functions from each component, works together to always be able to go from the global application state down to the state that an individual component cares about.
 
 When a component is created, a lens function in provided.  But first, let's look at an example of a simple component for a task in a todo list.
 
