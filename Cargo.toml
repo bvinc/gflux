@@ -10,7 +10,7 @@ license = "MIT"
 name = "gflux"
 readme = "README.md"
 respository = "https://github.com/bvinc/gflux"
-version = "0.1.0"
+version = "0.1.1"
 
 [dev-dependencies]
 glib = {version = "0.17"}
