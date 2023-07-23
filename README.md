@@ -83,9 +83,32 @@ When `rebuild` is called, it's up to the component to make sure the widgets matc
 
 `with_model_mut` marks the component a dirty so that rebuild will be called soon afterwards.
 
+### Initializing a component tree
+
+```rust
+    // Create the global application state
+    let global = Rc::new(RefCell::new(AppState { tasks }));
+
+    // Create the root of the component tree
+    let mut ctree = ComponentTree::new(global);
+```
+
 ### Creating a component
 
+Given a "lens" function, and parameters, you can create new component.  A similar method exists on a ComponentCtx to create a child component of an existing component.
+
+```rust
+    let task_comp: ComponentHandle<TaskComponent> = ctree.new_component(|app_state| app_state.get_task_mut(), ());
+```
+
 ### Change tracking
+
+A component tree provides two methods:
+
+* `on_first_change` to register a callback that gets called every time the component tree moves from a completely clean state to a dirty state.
+* `rebuild_changed` to call the `rebuild` method on all components that have been marked as dirty by `with_model_mut`, and all of their ancestor components, from the oldest to the newest.
+
+With both of these methods, we can register the GTK main loop to always rebuild any component whose model has been mutated:
 
 ```rust
     // When the tree first moves from clean to dirty, use `idle_add_local_once`
@@ -96,11 +119,9 @@ When `rebuild` is called, it's up to the component to make sure the widgets matc
     }));
 ```
 
-`rebuild_changed()` calls rebuild on any component that has been marked dirty by `with_model_mut`, plus all ancestor components.  `rebuild()` methods will be called on all parents before children.
-
 ### Guidelines to having a good time
 
-* Creating a component returns a ComponentHandle.  Keep these objects alive if you component still exists.
+* Creating a component returns a ComponentHandle.  Keep these objects alive if your component still exists.
 * Calls to `with_model` and `with_model_mut` should be kept short, and no GTK functions should be called from inside of them.  Copy out parts of the model before calling GTK functions.
 * Avoid calling GTK functions that recursively call the main loop, such as `dialog.run()`
 
