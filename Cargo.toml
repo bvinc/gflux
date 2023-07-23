@@ -6,7 +6,6 @@ edition = "2021"
 homepage = "https://github.com/bvinc/gflux"
 keywords = ["component", "reactive", "ui", "gui", "gtk"]
 license = "MIT"
-license-file = "LICENSE"
 name = "gflux"
 readme = "README.md"
 respository = "https://github.com/bvinc/gflux"
