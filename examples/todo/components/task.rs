@@ -20,21 +20,23 @@ impl Component for TaskComponent {
     }
 
     fn build(ctx: ComponentCtx<Self>, list_ctx: ComponentCtx<ListComponent>) -> Self {
+        let task_id = ctx.with_model(|task| task.id);
+
         let checkbox = gtk::CheckButton::new();
         checkbox.connect_toggled(clone!(@strong ctx => move |cb| {
             ctx.with_model_mut(|task| task.done = cb.is_active());
         }));
 
-        let task_id = ctx.with_model(|task| task.id);
-
-        let hbox = gtk::Box::new(gtk::Orientation::Horizontal, 8);
         let label = gtk::Label::new(None);
         label.set_hexpand(true);
         label.set_halign(Align::Start);
+
         let del_button = gtk::Button::from_icon_name("edit-delete");
         del_button.connect_clicked(move |_| {
             list_ctx.with_model_mut(move |tasks| tasks.remove_task(task_id));
         });
+
+        let hbox = gtk::Box::new(gtk::Orientation::Horizontal, 8);
         hbox.append(&checkbox);
         hbox.append(&label);
         hbox.append(&del_button);

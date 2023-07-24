@@ -2,12 +2,12 @@ use super::task::TaskComponent;
 use crate::{AppState, Tasks};
 use gflux::{Component, ComponentCtx, ComponentHandle};
 use gtk::prelude::*;
-use std::collections::{BTreeMap, HashSet};
+use std::collections::{HashMap, HashSet};
 
 pub struct ListComponent {
     vbox: gtk::Box,
     summary: gtk::Label,
-    task_comps: BTreeMap<u64, ComponentHandle<TaskComponent>>,
+    task_comps: HashMap<u64, ComponentHandle<TaskComponent>>,
 }
 
 impl Component for ListComponent {
@@ -21,7 +21,6 @@ impl Component for ListComponent {
     }
 
     fn build(ctx: ComponentCtx<Self>, _params: ()) -> Self {
-        let vbox = gtk::Box::new(gtk::Orientation::Vertical, 10);
         let entry = gtk::Entry::new();
         entry.set_placeholder_text(Some("Add a task"));
         entry.connect_activate(move |entry| {
@@ -33,10 +32,11 @@ impl Component for ListComponent {
         let summary = gtk::Label::new(None);
         summary.set_halign(gtk::Align::Start);
 
+        let vbox = gtk::Box::new(gtk::Orientation::Vertical, 10);
         vbox.append(&entry);
         vbox.append(&summary);
 
-        let task_comps = BTreeMap::new();
+        let task_comps = HashMap::new();
 
         // rebuild will be called immediately afterwards
         Self {
