@@ -126,7 +126,7 @@ ctree.on_first_change(clone!(@strong ctree => move || {
 }));
 ```
 
-### Guidelines to having a good time
+## Guidelines to having a good time
 
 * Creating a component returns a ComponentHandle.  Keep these objects alive if your component still exists.
 * Calls to `with_model` and `with_model_mut` should be kept short, and no GTK functions should be called from inside of them.  Copy out parts of the model before calling GTK functions.
