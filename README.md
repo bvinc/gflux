@@ -22,7 +22,7 @@ The `'static` lifetime bound means that the callback function provided can only 
 
 There are usually 3 ways to handle this:
 * Wrap your application state in `Rc<RefCell<T>>`.   This works when your application state is simple.  For complex applications, you don't want every widget to be aware of your entire application state.  This means you end up putting `Rc<RefCell<T>>` all over your application state.  This gets unmanageable.
-* Send a message to a queue.  Many rust gtk component frameworks that currently exist, often inspired by elm, choose this method.  This works.  But occasionally, you want to provide a callback that blocks an action based on its return value.  For example, a delete-event on a window in GTK can return true or false.  Sending a message requires picking a return value without access to your application state.
+* Send a message to a queue.  Many rust gtk component frameworks that currently exist, choose this method.  This works.  But occasionally, you want to provide a callback that blocks an action based on its return value.  For example, a delete-event on a window in GTK can return true or false.  Sending a message requires picking a return value without access to your application state.
 * Create custom widgets and put your application state inside of them.  This is the GTK way.  This works, if you don't mind putting your application state inside of object oriented widgets and not maintaining separation.
 
 ## gflux components
@@ -94,7 +94,7 @@ When `rebuild` is called, it's up to the component to make sure the widgets matc
 
 ```rust
 // Create the global application state
-let global = Rc::new(RefCell::new(AppState { tasks }));
+let global = Rc::new(RefCell::new(AppState { ... }));
 
 // Create the root of the component tree
 let mut ctree = ComponentTree::new(global);
@@ -132,3 +132,7 @@ ctree.on_first_change(clone!(@strong ctree => move || {
 * Calls to `with_model` and `with_model_mut` should be kept short, and no GTK functions should be called from inside of them.  Copy out parts of the model before calling GTK functions.
 * Avoid calling GTK functions that recursively call the main loop, such as `dialog.run()`
 
+## Inspirations
+
+* [https://github.com/antoyo/relm](Relm)
+* Raph Levien's talk on [https://www.youtube.com/watch?v=XjbVnwBtVEk](Xilem)
