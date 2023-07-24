@@ -134,5 +134,5 @@ ctree.on_first_change(clone!(@strong ctree => move || {
 
 ## Inspirations
 
-* [https://github.com/antoyo/relm](Relm)
-* Raph Levien's talk on [https://www.youtube.com/watch?v=XjbVnwBtVEk](Xilem)
+* [Relm](https://github.com/antoyo/relm)
+* Raph Levien's talk on [Xilem](https://www.youtube.com/watch?v=XjbVnwBtVEk)
